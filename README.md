@@ -72,7 +72,16 @@ npm run preview    # প্রোডাকশন আউটপুট পরীক
 - হোমপেজ title/description (ব্রিফের নির্ধারিত লেখা), প্রতি রুটে title/meta/canonical (Seo কম্পোনেন্ট), JSON-LD WebSite + Organization + WebPage + BreadcrumbList, FAQ থাকলে FAQPage।
 - `public/robots.txt`, `public/sitemap.xml` (রেজিস্ট্রি থেকে জেনারেটেড), `favicon.svg`, `logo.svg`, `og.svg`, `manifest.webmanifest`।
 - কোনো ভুয়া রেটিং/রিভিউ/ব্যবহারকারী সংখ্যা নেই।
-- **সীমা:** পাতাগুলো ক্লায়েন্ট-রেন্ডারড React (SPA)। প্রতিটি পাতার মেটাডেটা রুট বদলের সঙ্গে সঙ্গে আপডেট হয়, তবে সার্চ ইঞ্জিনের জন্য পূর্ণ prerendering/static generation এখনো করা হয়নি — ভবিষ্যৎ ধাপ (Vite prerender প্লাগইন বা SSG)।
+
+### Prerendering (বিল্ড-টাইম)
+
+সাইটটি React SPA হলেও প্রতিটি পাবলিক রুটের পূর্ণ HTML বিল্ডের সময়ই তৈরি হয়, তাই JS না চালানো ক্রলার/লিংক-প্রিভিউ বটও পাতার কনটেন্ট দেখতে পায়:
+
+- `src/entry-server.jsx` — `react-dom/server`-এর `renderToStaticMarkup` + `react-router`-এর `StaticRouter` দিয়ে একটিমাত্র রুট রেন্ডার করে (কোনো hydration নয়; ব্রাউজারে `main.jsx` `createRoot` দিয়ে মার্কআপ বদলে ইন্টার‌্যাক্টিভ অ্যাপ বসায়)।
+- `scripts/prerender.mjs` — `vite build`-এর পর চলে: `/`, ৮টি স্ট্যাটিক পাতা ও ৮২টি ক্যালকুলেটরসহ ৯১টি রুট রেন্ডার করে `dist/<রুট>/index.html` লেখে (যেমন `dist/ssc-gpa-calculator/index.html`)। প্রতিটি পাতায় dist-এর `<head>` (title, meta, canonical, OG, JSON-LD, Google ভেরিফিকেশন ট্যাগ) থাকে, সঙ্গে রেজিস্ট্রি থেকে নেওয়া রুট-ভিত্তিক title/description/canonical ও WebPage+BreadcrumbList (+ FAQ থাকলে FAQPage) JSON-LD।
+- রুট-ভিত্তিক SEO তথ্য `src/data/calculators.js` রেজিস্ট্রি থেকে আসে; স্ট্যাটিক পাতারগুলো `scripts/prerender.mjs`-এর `STATIC_SEO`-তে থাকে — `src/pages/ListPages.jsx` ও `src/pages/Static.jsx`-এ `<Seo />`-কে দেওয়া মানের সঙ্গে মিলিয়ে রাখতে হয়।
+- কোনো রুটের রেন্ডার ব্যর্থ হলে সেটি লগে লেখা হয় এবং ওই রুটে সাধারণ শেল থাকে; বিল্ড তবুও সফল হয়। নতুন রুট যোগ করলে `src/Routes.jsx`-এর পাশাপাশি `scripts/prerender.mjs`-এর রুট তালিকাতেও যোগ করুন।
+- **সীমা:** প্রি-রেন্ডার করা HTML বিল্ড-সময়ের স্ন্যাপশট — বয়স ক্যালকুলেটরের "আজকের তারিখ"-এর মতো মান বিল্ডের দিনের হয়, তবে ব্রাউজারে JS লোড হলে তা বর্তমান তারিখে বদলে যায়। ইন্টার‌্যাক্টিভ হিসাব এখনো ক্লায়েন্ট-সাইডেই চলে। Vercel-এ স্ট্যাটিক ফাইল rewrite-এর আগে পরিবেশিত হয়, তাই প্রি-রেন্ডার করা পাতাগুলোই সরাসরি আসে; অজানা রুটে `vercel.json`-এর rewrite শেল পাতা (কাস্টম ৪০৪ কনটেন্টসহ) দেয়।
 
 ## পরীক্ষা (Vitest)
 
@@ -87,8 +96,8 @@ npm run preview    # প্রোডাকশন আউটপুট পরীক
 ## যাচাইকৃত ফলাফল
 
 - `npm test`: ৩৯/৩৯ পাস
-- `npm run build`: সফল (dist/index.html ২.৫৮ kB; JS বান্ডেল ৮১৩ kB — রিচার্টস/ফ্রেমার-মোশনসহ একটিমাত্র চাংক; কোড-স্প্লিটিং ভবিষ্যৎ অপ্টিমাইজেশন)
-- `vite preview` + curl: `/` ২০০, `/ssc-gpa-calculator` ২০০, `/sitemap.xml` ২০০, `/robots.txt` ২০০, অজানা রুটে কাস্টম ৪০৪ কনটেন্ট (SPA ফলব্যাক হিসেবে index.html ২০০ দেয় — SPA-এর স্বাভাবিক আচরণ)
+- `npm run build`: সফল — sitemap (৯১ URL) + ক্লায়েন্ট বিল্ড + SSR বান্ডেল + prerender: **৯১/৯১ রুট প্রি-রেন্ডারড, কোনো ফলব্যাক নেই** (dist ২.৮ MB, dist/index.html প্রি-রেন্ডারড ৪৫ kB; JS বান্ডেল ৮১৩ kB — একটিমাত্র চাংক; কোড-স্প্লিটিং ভবিষ্যৎ অপ্টিমাইজেশন)
+- স্ট্যাটিক সার্ভার + curl (raw HTML): `/` ২০০ — H1 "SP Calculator – সকল ধরনের অনলাইন ক্যালকুলেটর" ও Google ভেরিফিকেশন meta ট্যাগ আছে; `/ssc-gpa-calculator` ২০০ — সূত্রের লেখা, title "SSC GPA ক্যালকুলেটর | SP Calculator", canonical ও FAQPage JSON-LD আছে; `/emi-calculator`, `/age-calculator`, `/scientific-calculator`, `/land-calculator`, `/bmi-calculator` ২০০ — প্রতিটির শিরোনাম/ফর্ম raw HTML-এ আছে; `/sitemap.xml` ২০০, `/robots.txt` ২০০
 - কোনো lorem ipsum নেই; সব বাংলা কনটেন্ট মৌলিক
 
 ## ফোল্ডার কাঠামো

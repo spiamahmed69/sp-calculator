@@ -1,1 +1,30 @@
-{"dependencies":{"date-fns":"^4.1.0","framer-motion":"^14.14.0","lucide-react":"^1.77.0","react":"^19.3.1","react-dom":"^19.3.1","react-router-dom":"^7.18.6","recharts":"^3.11.0"},"devDependencies":{"@tailwindcss/vite":"^4.3.5","@vitejs/plugin-react":"^6.1.2","tailwindcss":"^4.3.5","vite":"^8.3.6","vitest":"^4.0.0"},"name":"sp-calculator","private":true,"scripts":{"build":"node scripts/generate-sitemap.mjs && vite build","dev":"vite","preview":"vite preview","test":"vitest run","test:watch":"vitest"},"type":"module","version":"1.0.0"}
+{
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "framer-motion": "^14.14.0",
+    "lucide-react": "^1.77.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.6",
+    "recharts": "^3.11.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.6",
+    "vitest": "^4.0.0"
+  },
+  "name": "sp-calculator",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-sitemap.mjs && vite build && vite build --ssr src/entry-server.jsx --outDir dist-server && node scripts/prerender.mjs",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prerender": "node scripts/prerender.mjs"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
