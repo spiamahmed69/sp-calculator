@@ -9,7 +9,7 @@ import { bmi, bmr, calorieEstimate, waterIntake } from '../lib/calc/health.js'
 import { triangleArea, circleArea, circleCircumference, rectangleArea, rectanglePerimeter, squareArea, pythagHypotenuse, pythagLeg, boxVolume, cylinderVolume, sphereVolume, average, ratioSimplify, fractionCalc } from '../lib/calc/geometry.js'
 import { evaluate } from '../lib/calc/scientific.js'
 
-export const SITE_URL = 'https://sp-calculator.vercel.app'
+export const SITE_URL = 'https://sp-calculator-ten.vercel.app'
 
 export const CATEGORIES = [
   { id: 'education', name: 'শিক্ষা', desc: 'SSC, HSC, JSC, দাখিল, আলিম — GPA ও গ্রেড হিসাব', icon: 'GraduationCap' },

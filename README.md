@@ -2,7 +2,7 @@
 
 বাংলা ভাষার All-in-One অনলাইন ক্যালকুলেটর প্ল্যাটফর্ম। **৮২টি ক্যালকুলেটর**, ১১টি ক্যাটাগরি — GPA, CGPA, Scientific, Age, EMI, Percentage, Unit Converter, জমির মাপসহ সব হিসাব বিনামূল্যে, রেজিস্ট্রেশন ছাড়াই।
 
-লাইভ (এখনো ডিপ্লয় করা হয়নি — নিচের নির্দেশনা দেখুন): https://sp-calculator.vercel.app
+লাইভ (এখনো ডিপ্লয় করা হয়নি — নিচের নির্দেশনা দেখুন): https://sp-calculator-ten.vercel.app
 
 ## প্রযুক্তি
 
@@ -33,7 +33,7 @@ npm run preview    # প্রোডাকশন আউটপুট পরীক
 
 1. Search Console (search.google.com/search-console) → সম্পত্তি যোগ করুন (ডোমেইন বা URL prefix)।
 2. যাচাইকরণ: HTML ট্যাগ পদ্ধতি বেছে নিলে দেওয়া `content="…"` টোকেনটি `index.html`-এর `<head>`-এ বসান। **কোনো যাচাইকরণ কোড এখানে আগে থেকে বসানো নেই — আসল কোড Search Console থেকেই নিতে হবে।**
-3. Sitemap জমা দিন: `https://sp-calculator.vercel.app/sitemap.xml` (এটি `src/data/calculators.js` রেজিস্ট্রি থেকে প্রতিটি বিল্ডে তৈরি হয় — ৯১টি URL: হোম + ৮টি স্ট্যাটিক পাতা + ৮২টি ক্যালকুলেটর)।
+3. Sitemap জমা দিন: `https://sp-calculator-ten.vercel.app/sitemap.xml` (এটি `src/data/calculators.js` রেজিস্ট্রি থেকে প্রতিটি বিল্ডে তৈরি হয় — ৯১টি URL: হোম + ৮টি স্ট্যাটিক পাতা + ৮২টি ক্যালকুলেটর)।
 4. URL Inspection দিয়ে কয়েকটি ক্যালকুলেটর পাতা পরীক্ষা করুন; Indexing রিপোর্টে নিয়মিত নজর রাখুন।
 5. Google Analytics 4 (ঐচ্ছিক): `VITE_GA_MEASUREMENT_ID` এনভায়রনমেন্ট ভেরিয়েবল বসালে তবেই ট্র্যাকিং চালু হবে — ডিফল্টভাবে কোনো ট্র্যাকিং নেই।
 
