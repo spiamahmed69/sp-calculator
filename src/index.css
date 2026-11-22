@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #2563EB;
+  --color-cyan-sky: #06B6D4;
+  --color-violet: #8B5CF6;
+  --color-bg: #F4F5FF;
+  --color-ink: #1E293B;
+  --color-muted: #64748B;
+  --font-bn: "Hind Siliguri", "Noto Sans Bengali", "Inter", system-ui, sans-serif;
+  --font-display: "Hind Siliguri", "Noto Sans Bengali", "Inter", system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-bn);
+  background-color: #F4F5FF;
+  color: #1E293B;
+  -webkit-font-smoothing: antialiased;
+}
+.dark body { background-color: #0B1226; color: #E6EEF8; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.10);
+}
+.dark .glass {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+.grad { background: linear-gradient(135deg, #2563EB 0%, #06B6D4 55%, #8B5CF6 100%); }
+.grad-text { background: linear-gradient(135deg, #2563EB, #06B6D4 55%, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.blob { position: absolute; border-radius: 9999px; filter: blur(70px); opacity: .55; pointer-events: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+:focus-visible { outline: 3px solid #2563EB; outline-offset: 2px; border-radius: 6px; }
+input, select, textarea { font-size: 16px; }
