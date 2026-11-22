@@ -2,7 +2,7 @@
 
 বাংলা ভাষার All-in-One অনলাইন ক্যালকুলেটর প্ল্যাটফর্ম। **৮২টি ক্যালকুলেটর**, ১১টি ক্যাটাগরি — GPA, CGPA, Scientific, Age, EMI, Percentage, Unit Converter, জমির মাপসহ সব হিসাব বিনামূল্যে, রেজিস্ট্রেশন ছাড়াই।
 
-লাইভ (এখনো ডিপ্লয় করা হয়নি — নিচের নির্দেশনা দেখুন): https://sp-calculator-ten.vercel.app
+লাইভ: https://sp-calculator-ten.vercel.app
 
 ## প্রযুক্তি
 
